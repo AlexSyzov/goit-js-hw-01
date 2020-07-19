@@ -19,9 +19,12 @@ do {
 
   input = Number(input);
 
-  !Number.isNaN(input) // if input value is a number,
-    ? numbers.push(input) // than this value will be added to array
-    : alert("Было введено не число, попробуйте ещё раз"); // else you will see this message
+  if (!Number.isNaN(input)) {
+    // if input value is a number,
+    numbers.push(input); // than this value will be added to array
+  } else {
+    alert("Было введено не число, попробуйте ещё раз"); // else you will see this message
+  }
 } while (true);
 
 console.log(`Общая сумма чисел равна ${total}`);

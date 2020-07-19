@@ -4,11 +4,11 @@ const formatString = function (string) {
     return string;
   }
 
-  let shortenedString = "";
+  let shortenedString = string.slice(0, 40);
 
-  for (let i = 0; i < 40; i += 1) {
-    shortenedString += string[i]; // string is also an array (of characters), so I use it here like an array
-  }
+  // for (let i = 0; i < 40; i += 1) {
+  //   shortenedString += string[i]; // string is also an array (of characters), so I use it here like an array
+  // }
 
   shortenedString += "...";
 

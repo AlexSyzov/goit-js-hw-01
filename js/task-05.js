@@ -1,10 +1,8 @@
 const checkForSpam = function (message) {
-  const wordsArray = message.toLowerCase().split(" ");
+  const lowerCaseMessage = message.toLowerCase();
 
-  for (const word of wordsArray) {
-    if (word.includes("spam") || word.includes("sale")) {
-      return true;
-    }
+  if (lowerCaseMessage.includes("spam") || lowerCaseMessage.includes("sale")) {
+    return true;
   }
 
   return false;
