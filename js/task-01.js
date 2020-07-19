@@ -1,12 +1,8 @@
-// type="module" сам добавляет "'use strict';", поэтому не пишу это лишний раз (но понимаю, для чего это нужно)
+const logItems = function (array) {
+  for (let i = 0; i < array.length; i += 1) {
+    console.log(`${i + 1} - ${array[i]}`);
+  }
+};
 
-const name = "Генератор защитного поля";
-let price = 1000;
-let productInfo = `Выбран «${name}», цена за штуку ${price} кредитов`;
-
-console.log(productInfo);
-
-price = 2000;
-productInfo = `Выбран «${name}», цена за штуку ${price} кредитов`;
-
-console.log(productInfo);
+logItems(["Mango", "Poly", "Ajax", "Lux", "Jay", "Kong"]);
+logItems([5, 10, 15, 20, 25, 30, 35, 40, 45, 50]);

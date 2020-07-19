@@ -1,14 +1,20 @@
-let message;
-const ADMIN_PASSWORD = "jqueryismyjam";
+const findLongestWord = function (string) {
+  const wordsArray = string.split(" ");
+  let longestWord = wordsArray[0];
 
-const promptChoice = prompt("Введите пароль:");
+  for (let i = 1; i < wordsArray.length; i += 1) {
+    // starts with 1 because it doesn't make any sense to compare the first word with itself
+    if (wordsArray[i].length > longestWord.length) {
+      // if there are more symbols in the next word in array
+      longestWord = wordsArray[i];
+    }
+  }
 
-if (promptChoice === null) {
-  message = "Отменено пользователем!";
-} else if (promptChoice === ADMIN_PASSWORD) {
-  message = "Добро пожаловать!";
-} else {
-  message = "Доступ запрещён, неверный пароль!";
-}
+  return longestWord;
+};
 
-alert(message);
+console.log(findLongestWord("The quick brown fox jumped over the lazy dog"));
+
+console.log(findLongestWord("Google do a roll"));
+
+console.log(findLongestWord("May the force be with you"));
