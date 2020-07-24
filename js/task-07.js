@@ -21,11 +21,7 @@ const account = {
    * Принимает сумму и тип транзакции.
    */
   createTransaction(amount, type) {
-    const transaction = {
-      id: id,
-      type: type,
-      amount: amount,
-    };
+    const transaction = { id, type, amount };
 
     id += 1;
 
@@ -78,8 +74,7 @@ const account = {
    * Метод возвращает текущий баланс
    */
   getBalance() {
-    const currentBalance = `Текущий баланс: ${this.balance}`;
-    return currentBalance;
+    return this.balance;
   },
 
   /*
@@ -96,9 +91,7 @@ const account = {
       }
     }
 
-    const failMessage = "Транзакции с таким id не существует!";
-
-    return failMessage;
+    return null;
   },
 
   /*
@@ -118,9 +111,7 @@ const account = {
       }
     }
 
-    const totalMessage = `В операции ${type} было задействовано ${total} кредитов`;
-
-    return totalMessage;
+    return total;
   },
 };
 
@@ -129,7 +120,7 @@ account.deposit(3000);
 account.deposit(3000);
 account.withdraw(3000);
 
-console.log(account.getBalance());
+console.log(`Текущий баланс: ${account.getBalance()}`);
 
 account.deposit(3000);
 account.withdraw(3000);
@@ -143,10 +134,13 @@ console.log(account.getTransactionDetails(5));
 console.log(account.getTransactionDetails(7));
 console.log(account.getTransactionDetails(11));
 
-console.log(account.getBalance());
+console.log(`Текущий баланс: ${account.getBalance()}`);
 
-console.log(account.getTransactionTotal("withdraw"));
-console.log(account.getTransactionTotal("deposit"));
+const totalWithdraw = account.getTransactionTotal("withdraw");
+const totalDeposit = account.getTransactionTotal("deposit");
+
+console.log(`В операции изымания было задействовано ${totalWithdraw} кредитов`);
+console.log(`В операции пополнения было задействовано ${totalDeposit} кредитов`);
 
 account.withdraw(23000);
-console.log(account.getBalance());
+console.log(`Текущий баланс: ${account.getBalance()}`);
