@@ -1,28 +1,15 @@
-const calculateEngravingPrice = function (message, pricePerWord) {
-  const wordsArray = message.split(" ");
-  const arrayLength = wordsArray.length;
+const countProps = function (obj) {
+  let amountOfItems = 0;
 
-  return pricePerWord * arrayLength; // price per word multiplied by the amount of words (arrayLength)
+  for (const item in obj) {
+    amountOfItems += 1;
+  }
+
+  return amountOfItems;
 };
 
-console.log(
-  calculateEngravingPrice(
-    "Proin sociis natoque et magnis parturient montes mus",
-    10
-  )
-);
+console.log(countProps({}));
 
-console.log(
-  calculateEngravingPrice(
-    "Proin sociis natoque et magnis parturient montes mus",
-    20
-  )
-);
+console.log(countProps({ name: "Mango", age: 2 }));
 
-console.log(
-  calculateEngravingPrice("Donec orci lectus aliquam est magnis", 40)
-);
-
-console.log(
-  calculateEngravingPrice("Donec orci lectus aliquam est magnis", 20)
-);
+console.log(countProps({ mail: "poly@mail.com", isOnline: true, score: 500 }));

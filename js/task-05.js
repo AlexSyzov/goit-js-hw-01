@@ -1,17 +1,24 @@
-const checkForSpam = function (message) {
-  const lowerCaseMessage = message.toLowerCase();
+const products = [
+  { name: "Радар", price: 1300, quantity: 4 },
+  { name: "Сканер", price: 2700, quantity: 3 },
+  { name: "Дроид", price: 400, quantity: 7 },
+  { name: "Захват", price: 1200, quantity: 2 },
+];
 
-  if (lowerCaseMessage.includes("spam") || lowerCaseMessage.includes("sale")) {
-    return true;
+const getAllPropValues = function (arr, prop) {
+  const propArray = [];
+
+  for (const item of arr) {
+    if (item[prop] !== undefined) {
+      propArray.push(item[prop]);
+    }
   }
 
-  return false;
+  return propArray;
 };
 
-console.log(checkForSpam("Latest technology news"));
+console.log(getAllPropValues(products, "name"));
 
-console.log(checkForSpam("JavaScript weekly newsletter"));
+console.log(getAllPropValues(products, "quantity"));
 
-console.log(checkForSpam("Get best sale offers now!"));
-
-console.log(checkForSpam("[SPAM] How to earn fast money?"));
+console.log(getAllPropValues(products, "category"));

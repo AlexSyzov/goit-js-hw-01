@@ -1,20 +1,64 @@
-const findLongestWord = function (string) {
-  const wordsArray = string.split(" ");
-  let longestWord = wordsArray[0];
+const findBestEmployee = function (employees) {
+  let biggestAmount = 0; // you cannot complete less than 0 tasks, so this is the initial value
 
-  for (let i = 1; i < wordsArray.length; i += 1) {
-    // starts with 1 because it doesn't make any sense to compare the first word with itself
-    if (wordsArray[i].length > longestWord.length) {
-      // if there are more symbols in the next word in array
-      longestWord = wordsArray[i];
+  const namesArray = Object.keys(employees); // names of employees
+  const amountArray = Object.values(employees); // amount of completed tasks
+
+  let bestWorkerIndex;
+
+  for (let i = 0; i < amountArray.length; i += 1) {
+    // amountArray.length shows us amount of values, so we can use it to define amount of object properties
+    if (amountArray[i] > biggestAmount) {
+      biggestAmount = amountArray[i];
+      bestWorkerIndex = i;
     }
   }
 
-  return longestWord;
+  const bestWorker = namesArray[bestWorkerIndex];
+
+  return bestWorker;
 };
 
-console.log(findLongestWord("The quick brown fox jumped over the lazy dog"));
+// You can see another version of this function below. There is less code inside, but it is less clear.
+// I need your feedback. Which one is better to use and why?
 
-console.log(findLongestWord("Google do a roll"));
+/* 
+  const findBestEmployee = function (employees) {
+     let biggestAmount = 0; // you cannot complete less than 0 tasks, so this is the initial value
+     let bestWorker;
 
-console.log(findLongestWord("May the force be with you"));
+     for (const name in employees) {
+       if (employees[name] > biggestAmount) {
+         biggestAmount = employees[name];
+         bestWorker = name;
+      }
+    }
+    return bestWorker; 
+  } 
+  */
+
+console.log(
+  findBestEmployee({
+    ann: 29,
+    david: 35,
+    helen: 1,
+    lorence: 99,
+  })
+);
+
+console.log(
+  findBestEmployee({
+    poly: 12,
+    mango: 17,
+    ajax: 4,
+  })
+);
+
+console.log(
+  findBestEmployee({
+    lux: 147,
+    david: 21,
+    kiwi: 19,
+    chelsy: 38,
+  })
+);

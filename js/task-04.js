@@ -1,28 +1,27 @@
-const formatString = function (string) {
-  // inspired by guard clause :]
-  if (string.length <= 40) {
-    return string;
+const countTotalSalary = function (employees) {
+  let totalSalary = 0;
+
+  for (const person in employees) {
+    totalSalary += employees[person];
   }
 
-  let shortenedString = string.slice(0, 40);
-
-  // for (let i = 0; i < 40; i += 1) {
-  //   shortenedString += string[i]; // string is also an array (of characters), so I use it here like an array
-  // }
-
-  shortenedString += "...";
-
-  return shortenedString;
+  return totalSalary;
 };
 
-console.log(formatString("Curabitur ligula sapien, tincidunt non."));
-
-console.log(formatString("Vestibulum facilisis, purus nec pulvinar iaculis."));
-
-console.log(formatString("Curabitur ligula sapien."));
+console.log(countTotalSalary({}));
 
 console.log(
-  formatString(
-    "Nunc sed turpis. Curabitur a felis in nunc fringilla tristique."
-  )
+  countTotalSalary({
+    mango: 100,
+    poly: 150,
+    alfred: 80,
+  })
+);
+
+console.log(
+  countTotalSalary({
+    kiwi: 200,
+    lux: 50,
+    chelsy: 150,
+  })
 );

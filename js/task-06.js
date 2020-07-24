@@ -1,30 +1,25 @@
-let input;
-const numbers = [];
-let total = 0;
+const products = [
+  { name: "Радар", price: 1300, quantity: 4 },
+  { name: "Сканер", price: 2700, quantity: 3 },
+  { name: "Дроид", price: 400, quantity: 7 },
+  { name: "Захват", price: 1200, quantity: 2 },
+];
 
-do {
-  input = prompt("Введите число:");
+const calculateTotalPrice = function (allProdcuts, productName) {
+  let totalPrice = 0;
 
-  if (input === null) {
-    if (numbers.length !== 0) {
-      // if there is at least one element in array
-      for (const number of numbers) {
-        total += number;
-      }
-    } else {
-      alert("Вы не ввели ни одного числа! Сумму посчитать невозможно.");
+  for (const product of allProdcuts) {
+    const { name, price, quantity } = product;
+    // just to show the knowledge. If it is very bad to do it in every iteration, just write :))
+
+    if (name === productName) {
+      totalPrice = price * quantity;
     }
-    break;
   }
 
-  input = Number(input);
+  return totalPrice;
+};
 
-  if (!Number.isNaN(input)) {
-    // if input value is a number,
-    numbers.push(input); // than this value will be added to array
-  } else {
-    alert("Было введено не число, попробуйте ещё раз"); // else you will see this message
-  }
-} while (true);
+console.log(calculateTotalPrice(products, "Радар"));
 
-console.log(`Общая сумма чисел равна ${total}`);
+console.log(calculateTotalPrice(products, "Дроид"));
