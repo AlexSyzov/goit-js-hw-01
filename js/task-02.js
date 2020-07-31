@@ -1,52 +1,29 @@
-const inventory = {
-  items: ["Knife", "Gas mask"],
-  add(itemName) {
-    console.log(`Adding ${itemName} to inventory`);
+class User {
+  constructor(userObj) {
+    this.name = userObj.name;
+    this.age = userObj.age;
+    this.followers = userObj.followers;
+  }
 
-    this.items.push(itemName);
-  },
-  remove(itemName) {
-    console.log(`Removing ${itemName} from inventory`);
+  getInfo() {
+    console.log(
+      `User ${this.name} is ${this.age} years old and has ${this.followers} followers`
+    );
+  }
+}
 
-    this.items = this.items.filter((item) => item !== itemName);
-  },
-};
+const mango = new User({
+  name: 'Mango',
+  age: 2,
+  followers: 20,
+});
 
-const invokeInventoryAction = function (itemName, action) {
-  console.log(`Invoking action on ${itemName}`);
-  action(itemName);
-};
+mango.getInfo();
 
-invokeInventoryAction("Medkit", inventory.add.bind(inventory));
-// Invoking action on Medkit
-// Adding Medkit to inventory
+const poly = new User({
+  name: 'Poly',
+  age: 3,
+  followers: 17,
+});
 
-console.log(inventory.items); // ['Knife', 'Gas mask', 'Medkit']
-
-invokeInventoryAction("Gas mask", inventory.remove.bind(inventory));
-// Invoking action on Gas mask
-// Removing Gas mask from inventory
-
-console.log(inventory.items); // ['Knife', 'Medkit']
-
-// ========================================================================
-// Можна ще так))
-// ========================================================================
-
-// const invokeInventoryAction = function (itemName, action, bindObj) {
-//   console.log(`Invoking action on ${itemName}`);
-//   const bindedAction = action.bind(inventory, itemName);
-//   bindedAction();
-// };
-
-// invokeInventoryAction("Medkit", inventory.add, inventory);
-// // Invoking action on Medkit
-// // Adding Medkit to inventory
-
-// console.log(inventory.items); // ['Knife', 'Gas mask', 'Medkit']
-
-// invokeInventoryAction("Gas mask", inventory.remove, inventory);
-// // Invoking action on Gas mask
-// // Removing Gas mask from inventory
-
-// console.log(inventory.items); // ['Knife', 'Medkit']
+poly.getInfo();
