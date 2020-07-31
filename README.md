@@ -1,2 +1,2 @@
-# goit-js-hw-04
+# goit-js-hw-05
 For JS homeworks in GoIT
