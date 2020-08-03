@@ -68,9 +68,14 @@ console.log(getUsersWithAge(users, 30, 40));
 //=====================================================
 
 const calculateTotalBalance = (users) => {
-  const totalBalance = users
-    .map((user) => user.balance)
-    .reduce((total, currentBalance) => total + currentBalance);
+  // const totalBalance = users
+  //   .map((user) => user.balance)
+  //   .reduce((total, currentBalance) => total + currentBalance);
+
+  const totalBalance = users.reduce(
+    (total, currentBalance) => total + currentBalance.balance,
+    0
+  );
 
   // let totalBalance = 0;
   // users.forEach((user) => (totalBalance += user.balance));
@@ -113,7 +118,9 @@ const getSortedUniqueSkills = (users) => {
   const uniqueSkills = [];
   users.forEach((user) =>
     user.skills.forEach((skill) => {
-      !uniqueSkills.includes(skill) ? uniqueSkills.push(skill) : null;
+      if (!uniqueSkills.includes(skill)) {
+        uniqueSkills.push(skill);
+      }
     })
   );
   uniqueSkills.sort();
