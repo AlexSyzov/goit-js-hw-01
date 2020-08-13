@@ -10,17 +10,14 @@ let width = 30;
 let height = 30;
 
 function createBoxes() {
-  // It is easier to create this function without parameters.
-  // Cause it is pretty hard to access the input value from outside.
-  // But if there is an easy way to do this, I am ready to rewrite my code))
   const amount = inputRef.value;
   const allBlocks = [];
 
   for (let i = 0; i < amount; i += 1) {
     const newBlock = document.createElement("div");
-    const rgb = getRandomRGB();
+    const [r, g, b] = getRandomRGB();
 
-    newBlock.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+    newBlock.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
     newBlock.style.width = `${width}px`;
     newBlock.style.height = `${height}px`;
 
@@ -31,6 +28,7 @@ function createBoxes() {
   }
 
   containerRef.append(...allBlocks);
+  inputRef.value = "";
 }
 
 function getRandomRGB() {
@@ -39,7 +37,6 @@ function getRandomRGB() {
   const b = Math.floor(Math.random() * 256);
 
   const color = [r, g, b];
-  inputRef.value = "";
   return color;
 }
 

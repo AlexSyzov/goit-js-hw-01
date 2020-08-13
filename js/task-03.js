@@ -16,21 +16,19 @@ const images = [
   },
 ];
 
-const galleryElements = [];
+const galleryElements = images.map((img) => {
+  const listElement = document.createElement("li");
+  const listImage = document.createElement("img");
 
-images.forEach((img) => {
-  const listElementRef = document.createElement("li");
-  const listImageRef = document.createElement("img");
+  listElement.classList.add("gallery__element");
+  listImage.classList.add("gallery__image");
 
-  listElementRef.classList.add("gallery__element");
-  listImageRef.classList.add("gallery__image");
+  listImage.src = img.url;
+  listImage.alt = img.alt;
 
-  listImageRef.src = img.url;
-  listImageRef.alt = img.alt;
+  listElement.appendChild(listImage);
 
-  listElementRef.appendChild(listImageRef);
-
-  galleryElements.push(listElementRef);
+  return listElement;
 });
 
 const galleryRef = document.querySelector("#gallery");
