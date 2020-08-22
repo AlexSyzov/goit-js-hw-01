@@ -9,11 +9,10 @@ const refs = {
 };
 
 const vars = {
-  index: 0,
   id: undefined,
 };
 
-const readyGalleryItems = galleryItems.map((item) => {
+const readyGalleryItems = galleryItems.map((item, index) => {
   const listItem = document.createElement("li");
   listItem.classList.add("gallery__item");
 
@@ -27,8 +26,7 @@ const readyGalleryItems = galleryItems.map((item) => {
   listImg.src = item.preview;
   listImg.alt = item.description;
   listImg.dataset.source = item.original;
-  listImg.dataset.id = vars.index;
-  vars.index += 1;
+  listImg.dataset.id = index;
 
   listLink.appendChild(listImg);
   listItem.appendChild(listLink);
@@ -41,7 +39,6 @@ refs.gallery.append(...readyGalleryItems);
 refs.gallery.addEventListener("click", onImageClick);
 
 refs.lightbox.addEventListener("click", onCloseModal);
-window.addEventListener("keydown", onEscapePress);
 
 function onImageClick(event) {
   if (event.target.nodeName !== "IMG") {
@@ -53,8 +50,9 @@ function onImageClick(event) {
   const src = event.target.dataset.source;
   refs.lightboxImage.src = src;
 
-  vars.id = event.target.dataset.id;
+  vars.id = Number(event.target.dataset.id);
   window.addEventListener("keydown", onArrowsPress);
+  window.addEventListener("keydown", onEscapePress);
 
   refs.lightbox.classList.add("is-open");
 }
@@ -69,6 +67,7 @@ function onCloseModal(event) {
 
   refs.lightbox.classList.remove("is-open");
   refs.lightboxImage.src = "";
+  removeWindowListeners();
 }
 
 function onEscapePress(event) {
@@ -76,10 +75,9 @@ function onEscapePress(event) {
     return;
   }
 
-  if (refs.lightbox.classList.contains("is-open")) {
-    refs.lightbox.classList.remove("is-open");
-    refs.lightboxImage.src = "";
-  }
+  refs.lightbox.classList.remove("is-open");
+  refs.lightboxImage.src = "";
+  removeWindowListeners();
 }
 
 function onArrowsPress(event) {
@@ -87,23 +85,32 @@ function onArrowsPress(event) {
     return;
   }
 
+  const lastItemIndex = galleryItems.length - 1;
+  const next = vars.id + 1;
+  const previous = vars.id - 1;
+
   if (event.key === "ArrowLeft") {
-    if (Number(vars.id) !== 0) {
-      refs.lightboxImage.src = galleryItems[vars.id - 1].original;
+    if (vars.id !== 0) {
+      refs.lightboxImage.src = galleryItems[previous].original;
       vars.id -= 1;
     } else {
-      refs.lightboxImage.src = galleryItems[8].original;
-      vars.id = 8;
+      refs.lightboxImage.src = galleryItems[lastItemIndex].original;
+      vars.id = lastItemIndex;
     }
   }
 
   if (event.key === "ArrowRight") {
-    if (Number(vars.id) !== 8) {
-      refs.lightboxImage.src = galleryItems[vars.id - (-1)].original;
-      vars.id -= (-1); // minus is to transform data-id into a number
+    if (vars.id !== lastItemIndex) {
+      refs.lightboxImage.src = galleryItems[next].original;
+      vars.id += 1;
     } else {
       refs.lightboxImage.src = galleryItems[0].original;
       vars.id = 0;
     }
   }
+}
+
+function removeWindowListeners() {
+  window.removeEventListener("keydown", onArrowsPress);
+  window.removeEventListener("keydown", onEscapePress);
 }
