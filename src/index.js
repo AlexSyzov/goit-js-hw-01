@@ -17,8 +17,8 @@ const menuItems = menuTemplate(menu);
 refs.menu.insertAdjacentHTML('beforeend', menuItems);
 refs.checkbox.addEventListener('change', handleCheckboxChange);
 
-function handleCheckboxChange() {
-  if (refs.checkbox.checked) {
+function handleCheckboxChange(event) {
+  if (event.target.checked) {
     changeTheme(Theme.LIGHT, Theme.DARK);
     return;
   }
