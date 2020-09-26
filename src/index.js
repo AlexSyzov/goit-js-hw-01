@@ -12,32 +12,38 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-setDarkTheme();
+setInitialTheme();
 const menuItems = menuTemplate(menu);
 refs.menu.insertAdjacentHTML('beforeend', menuItems);
 refs.checkbox.addEventListener('change', handleCheckboxChange);
 
 function handleCheckboxChange() {
-  if (document.body.classList.contains(Theme.DARK)) {
-    document.body.classList.remove(Theme.DARK);
-    document.body.classList.add(Theme.LIGHT);
-    localStorage.setItem('Theme', Theme.LIGHT);
+  if (refs.checkbox.checked) {
+    changeTheme(Theme.LIGHT, Theme.DARK);
     return;
   }
 
-  if (document.body.classList.contains(Theme.LIGHT)) {
-    document.body.classList.remove(Theme.LIGHT);
-  }
-
-  document.body.classList.add(Theme.DARK);
-  localStorage.setItem('Theme', Theme.DARK);
+  changeTheme(Theme.DARK, Theme.LIGHT);
 }
 
-function setDarkTheme() {
+function setInitialTheme() {
   const theme = localStorage.getItem('Theme');
 
   if (theme === Theme.DARK) {
-    document.body.classList.add(Theme.DARK);
+    setTheme(Theme.DARK);
     refs.checkbox.checked = true;
+    return;
   }
+
+  setTheme(Theme.LIGHT);
+}
+
+function setTheme(theme) {
+  document.body.classList.add(theme);
+}
+
+function changeTheme(previousTheme, currentTheme) {
+  document.body.classList.remove(previousTheme);
+  document.body.classList.add(currentTheme);
+  localStorage.setItem('Theme', currentTheme);
 }
