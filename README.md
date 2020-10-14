@@ -1,1 +1,1 @@
-For JS homeworks in GoIT
+For JS homework in GoIT
