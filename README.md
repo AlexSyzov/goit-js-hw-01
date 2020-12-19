@@ -1,2 +1,2 @@
-# goit-react-hw-02-feedback
-For JS homework in GoIT
+# goit-react-hw-03-image-finder
+For React homework in GoIT
