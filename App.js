@@ -1,56 +1,114 @@
 import React, { Component } from "react";
-import Statistics from "./components/Statistics";
-import FeedbackOptions from "./components/FeedbackOptions";
-import Section from "./components/Section";
-import Notification from "./components/Notification";
+import imagesAPI from "./services/imagesAPI";
+import Searchbar from "./components/Searchbar/Searchbar";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
+import Button from "./components/Button/Button";
+import Loader from "react-loader-spinner";
+import Modal from "./components/Modal/Modal";
+import { LargeImage, LoaderBox } from "./styled";
+import Error from "./components/Error/Error";
+import "../node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class App extends Component {
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    images: [],
+    page: 1,
+    totalPages: 1,
+    error: null,
+    searchQuery: "",
+    isLoading: false,
+    largeImage: null,
   };
 
-  handleFeedbackButtonClick = (feedbackType) =>
-    this.setState((prevState) => ({
-      ...prevState,
-      [feedbackType]: prevState[feedbackType] + 1,
-    }));
+  componentDidUpdate(prevProps, prevState) {
+    const { searchQuery: prevQuery } = prevState;
+    const { searchQuery: nextQuery } = this.state;
 
-  countTotalFeedback = () =>
-    Object.values(this.state).reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
-    );
+    if (prevQuery !== nextQuery) {
+      this.fetchImages();
+    }
+  }
 
-  countPositiveFeedbackPercentage = () => {
-    return ((this.state.good / this.countTotalFeedback()) * 100).toFixed(0);
+  fetchImages = async () => {
+    const { searchQuery, page } = this.state;
+
+    this.setState({ isLoading: true });
+
+    try {
+      const response = await imagesAPI.fetchImagesWithQuery(searchQuery, page);
+      const { hits: images, total: totalImages } = response.data;
+      const { perPage } = response;
+
+      this.setState((prevState) => ({
+        images: [...prevState.images, ...images],
+        page: prevState.page + 1,
+        totalPages: Math.ceil(totalImages / perPage),
+      }));
+    } catch (error) {
+      this.setState({ error: error });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  handleFormSubmission = (searchQuery) => {
+    if (searchQuery !== this.state.searchQuery) {
+      this.setState({
+        images: [],
+        page: 1,
+        searchQuery: searchQuery,
+      });
+    }
+  };
+
+  handleLoadMoreBtnClick = async () => {
+    await this.fetchImages(this.state.searchQuery);
+
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
+
+  handleModalOpening = (largeImageURL, description) => {
+    this.setState({ largeImage: { url: largeImageURL, description } });
+  };
+
+  handleModalClosing = () => {
+    this.setState({ largeImage: null });
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
+    const { images, page, totalPages, isLoading, largeImage } = this.state;
 
     return (
       <>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={[...Object.keys(this.state)]}
-            onLeaveFeedback={this.handleFeedbackButtonClick}
+        <Searchbar onSubmit={this.handleFormSubmission} />
+        {this.state.error && <Error />}
+        {images.length > 0 && (
+          <ImageGallery
+            images={images}
+            onModalOpening={this.handleModalOpening}
           />
-        </Section>
-
-        {this.countTotalFeedback() === 0 ? (
-          <Notification message="No feedback given" />
-        ) : (
-          <Section title="Statistics">
-            <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={this.countTotalFeedback}
-              positivePercentage={this.countPositiveFeedbackPercentage}
+        )}
+        {isLoading && (
+          <LoaderBox>
+            <Loader
+              type="Circles"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              className="spinner"
             />
-          </Section>
+          </LoaderBox>
+        )}
+        {images.length > 0 && page < totalPages && !isLoading && (
+          <Button onClick={this.handleLoadMoreBtnClick} />
+        )}
+        {largeImage && (
+          <Modal onModalClosing={this.handleModalClosing}>
+            <LargeImage src={largeImage.url} alt={largeImage.description} />
+          </Modal>
         )}
       </>
     );
